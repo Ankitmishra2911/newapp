@@ -1,0 +1,99 @@
+.item-card-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+    background-color: grey;
+  }
+
+  .item-card {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    max-width: 800px;
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .item-image img {
+    width: 100%;
+    height: auto;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .item-details {
+    padding: 20px;
+  }
+  
+  .item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  
+  .item-title {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin: 0;
+    color: black;
+  }
+  
+  .item-price {
+    color: #d9534f;
+    font-size: 1.5em;
+  }
+  
+  .item-location-time {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    font-size: 0.9em;
+    color: #777;
+  }
+  
+  .item-seller {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    color: grey;
+  }
+  
+  .seller-name {
+    font-weight: bold;
+    font-size: 1em;
+  }
+  
+  .contact-seller {
+    background-color: #5bc0de;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 0.9em;
+  }
+  
+  .contact-seller:hover {
+    background-color: #31b0d5;
+  }
+  
+  .item-description {
+    font-size: 1em;
+    color: #555;
+    line-height: 1.6;
+  }
+  .message-input {
+    width: 100%;
+    padding: 10px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+    margin-bottom: 10px;
+  }
+  
