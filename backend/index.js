@@ -3,12 +3,49 @@ import pg  from 'pg';
 import router from './Routes/User.js';
 import displaydata from './Routes/DisplayData.js';
 import cors from 'cors';
+import { body, validationResult } from 'express-validator';
 import bodyParser from 'body-parser';
 import { redirect } from 'react-router-dom';
 import multer from 'multer';
+import { FaAssistiveListeningSystems } from 'react-icons/fa';
+import otpGenerator from 'otp-generator';
+import nodemailer from 'nodemailer';
+
 const app=express();
 const port =4000;
 const upload = multer({ dest: 'uploads/' });
+var otp1;
+
+//nodemailer
+import 'dotenv/config';
+
+function sendEmail(email,subject,message){
+
+const transporter = nodemailer.createTransport({
+    host: process.env.MAIL_HOST,
+  port:process.env.MAIL_PORT, // you can use any email service
+  auth: {
+    user: process.env.MAIL_USER,
+    pass: process.env.MAIL_PASSWORD,
+  },
+});
+const mailOptions = {
+    from:process.env.MAIL_USER,
+    to:email,
+    subject:subject,
+    text:message,
+}
+transporter.sendMail(mailOptions);
+}
+//otp generator
+const generateOTP = () => 
+otpGenerator.generate(6, { upperCaseAlphabets: false,
+     specialChars: false });
+
+
+
+
+
 
 const db = new pg.Client({
     user: "postgres",
@@ -33,10 +70,35 @@ app.get('/',(req,res)=>{
 })
 
 
+
 app.use('/api',router);
 app.use('/api',displaydata);
 app.use(cors());
 app.use(bodyParser.json());
+
+app.post('/send_otp',body('email').not().isEmpty().trim().withMessage('Email Address field is required')
+.isEmail().withMessage('Email field is not a valid format'),async(req,res)=>{
+  const email=req.body.email;
+  const otp=generateOTP();
+  otp1=otp;
+  try {
+    sendEmail(email,'Your OTP',`Your OTP for verification of Email is : ${otp}`);
+    res.json({ success: true });
+} catch (error) {
+    console.log(error.message);
+    res.json({ success: false });
+}
+
+})
+app.post('/verify_otp',async(req,res)=>{
+  const newotp=req.body.newotp;
+  if(otp1===newotp){
+    return res.status(200).send('OTP verified successfully');
+  }
+  res.status(400).send('Invalid OTP');
+
+
+})
 
 app.post('/api/posts',upload.array('photos'),async(req,res)=>{
   const { title, category, description,price, location, contactPerson, sellerid, phone } = req.body;

@@ -64,7 +64,6 @@ function Home() {
           <Link className="btn bg-white text-success mx-1" to="/login" style={{cursor:"pointer"}}>Login</Link>
           <Link className="btn bg-white text-success mx-1" to="/createUser">Signup</Link>
           <Link className="btn bg-white text-success mx-1"  onClick={handleSellButton} >Sell</Link>
-
         
         </div>:<div className="d-flex">
         

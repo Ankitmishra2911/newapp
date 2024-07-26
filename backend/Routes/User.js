@@ -5,7 +5,6 @@ import { body, validationResult } from 'express-validator';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
-
 const app = express();
 const router = express.Router();
 const jwtSecret="MyNameisAnkitMishraisHeroofworld";
@@ -31,6 +30,7 @@ router.post('/createUser', body('email').not().isEmpty().trim().withMessage('Ema
     async (req, res) => {
         const {fname,lname,email,password,personid}=req.body;
         const name=fname+" " +lname;
+        const otp=generateOTP();
         const salt=await bcrypt.genSalt(10);
         let secPassword=await bcrypt.hash(password,salt);
         const result = validationResult(req);
@@ -39,12 +39,14 @@ router.post('/createUser', body('email').not().isEmpty().trim().withMessage('Ema
         }
         
         try {
-            await db.query("Insert into users(name,collegename,personid,email,password) values ($1,$2,$3,$4,$5)", [name, college, personid, email, secPassword]);
+            const result=await db.query("Insert into users(name,collegename,personid,email,password,otp_code) values ($1,$2,$3,$4,$5,$6)", [name, college, personid, email, secPassword,otp]);
+            sendEmail(email,'Your OTP',`Your OTP for verification of Email is : ${otp}`);
             res.json({ success: true });
         } catch (error) {
             console.log(error.message);
             res.json({ success: false });
         }
+       
         
     })
     router.post('/loginUser', body('email').not().isEmpty().trim().withMessage('Email Address field is required')

@@ -15,16 +15,7 @@ function Navbar(){
     <div className="collapse navbar-collapse" id="navbarSupportedContent">
       <ul className="navbar-nav me-auto mb-2 mb-lg-0">
         <li className="nav-item">
-          <Link className="nav-link active" aria-current="page" to="#">Home</Link>
-        </li>
-        <li clasNames="nav-item">
-          <Link className="nav-link active" to="/login">Login</Link>
-        </li>
-        <li clasNames="nav-item">
-          <Link className="nav-link active" to="/createUser">Signup</Link>
-        </li>
-        <li clasNames="nav-item">
-          <Link className="nav-link active" to="/createUser">Sell</Link>
+          <Link className="nav-link active" aria-current="page" to="/">Home</Link>
         </li>
         </ul>
       <div className="d-flex justify-content-center">

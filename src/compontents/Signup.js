@@ -5,20 +5,24 @@ import { useNavigate } from "react-router-dom";
 
 function Signup(){
     const [credentials,setcredentials]=useState({fname:"",lname:"",email:"",password:"",personid:""});
+    const [otp, setOtp] = useState('');
+  const [otpSent, setOtpSent] = useState(false);
+  const [otpVerified, setOtpVerified] = useState(false);
     const navigate=useNavigate();
     const handleSubmit=async(e)=>{
+      if(otpVerified){
         e.preventDefault();
         const response=await fetch("http://localhost:4000/api/createUser",{
         method:'POST',
         headers: {
             'Content-Type': 'application/json'
           },
-        body:JSON.stringify({fname:credentials.fname,lname:credentials.lname,email:credentials.email,password:credentials.password,personid:credentials.personid})
+        body:JSON.stringify({fname:credentials.fname,lname:credentials.lname,email:credentials.email,password:credentials.password,personid:credentials.personid,otp:otp})
     });
     console.log(JSON.stringify(credentials));
     const json=await response.json()
     console.log(json);
-    if(!json.success){
+    if(!json.success && otpVerified){
         alert("Enter valid Credentials");
     }
     if(json.success){
@@ -26,7 +30,9 @@ function Signup(){
       console.log(localStorage.getItem("authtoken"));
       navigate("/");
     }
-    }
+  }
+
+}
     const onChange=(event)=>{
         setcredentials({...credentials,[event.target.name]:event.target.value})
     }
@@ -36,6 +42,38 @@ function Signup(){
         x.type = "text";
       } else {
         x.type = "password";
+      }
+    }
+    const sendOtp=async(e)=>{
+      e.preventDefault();
+      try {
+        await fetch("http://localhost:4000/send_otp",{
+        method:'POST',
+        headers: {
+            'Content-Type': 'application/json'
+          },
+          body:JSON.stringify({email:credentials.email})
+        })
+        setOtpSent(true);
+      } catch (error) {
+        console.error('Error sending OTP', error);
+      }
+
+    }
+    const verifyOtp=async(e)=>{
+      e.preventDefault();
+
+      try {
+        await fetch("http://localhost:4000/verify_otp",{
+        method:'POST',
+        headers: {
+            'Content-Type': 'application/json'
+          },
+          body:JSON.stringify({newotp:otp})
+        })
+        setOtpVerified(true);
+      } catch (error) {
+        console.error('Error sending OTP', error);
       }
     }
     return (
@@ -55,6 +93,16 @@ function Signup(){
     <label htmlFor="exampleInputEmail1" className="form-label">Email address</label>
     <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name='email' value={credentials.email} onChange={onChange}/>
     <div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div>
+    <button onClick={sendOtp} className="btn btn-primary">Send OTP</button>
+
+{otpSent && (
+  <div>
+    <input type="text" value={otp} onChange={(e) => setOtp(e.target.value)} placeholder="Enter OTP" />
+    <button onClick={verifyOtp} className="btn btn-primary">Verify OTP</button>
+  </div>
+)}
+
+{otpVerified && <p>OTP verified successfully!</p>}
   </div>
   <div className="mb-">
     <label htmlFor="exampleInputPassword1" className="form-label">Password</label>
