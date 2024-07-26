@@ -1,18 +1,28 @@
-# Getting Started with Create React App
+<img width="1440" alt="Screenshot 2024-07-26 at 8 46 38 PM" src="https://github.com/user-attachments/assets/ac8840c6-4c16-43a4-81de-5cabacdb348e"><img width="1440" alt="Screenshot 2024-07-26 at 8 46 38 PM" src="https://github.com/user-attachments/assets/c90c5f87-2264-4630-a83b-c2268d0bbe4d"># Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+
 
 ## Available Scripts
 
 In the project directory, you can run:
+-Run the frontend in one terminal with npm start.
+-And now run the backend in second terminal with localhost 4000 with node index.js.
 
-### `npm start`
+
+### `npm start`(For Frontend)
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
 The page will reload when you make changes.\
 You may also see any lint errors in the console.
+This is how frontend looks like..
+<img width="1440" alt="Screenshot 2024-07-26 at 8 46 38 PM" src="https://github.com/user-attachments/assets/1ce81170-7b42-49d9-98e0-188336e76f38">
+
+
+
 
 ### `npm test`
 
